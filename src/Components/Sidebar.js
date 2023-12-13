@@ -16,6 +16,7 @@ const Sidebar = () => {
       { id: 1, name: "Companies", link: "/companies" },
       { id: 2, name: "Departments", link: "/departments" },
       { id: 3, name: "Employees", link: "/employees" },
+      { id: 6, name: "Guards", link: "/guards" },
     ];
   } else if (userType === "company") {
     sidebarItems = [
@@ -24,12 +25,15 @@ const Sidebar = () => {
       { id: 1, name: "Company", link: `/company/details?id=${companyId}` },
       { id: 2, name: "Departments", link: "/departments" },
       { id: 3, name: "Employees", link: "/employees" },
+      { id: 6, name: "Guards", link: "/guards" },
     ];
   } else if (userType === "employee") {
     sidebarItems = [
       { id: 1, name: "Parking", link: "/parkings" },
       { id: 2, name: "Vehicle", link: "/vehicles" },
     ];
+  } else if (userType === "guard") {
+    sidebarItems = [{ id: 1, name: "Parking", link: "/parkings" }];
   }
 
   return (

@@ -1,3 +1,4 @@
+import GuardsScreen, { ParkingHistoryForGuard } from "../../Screens/company/GuardScreen";
 import {
   AddParkingAreaForCompanyOwner,
   AllParkingAreasForAdmin,
@@ -54,8 +55,8 @@ export const parkingAreasColumnsForParkingBooking = [
     class: { width: "12rem", minWidth: "12rem" },
   },
   {
-    name: "Name",
-    value: "Name",
+    name: "Parking Name",
+    value: "Parking Name",
     class: { width: "8rem", minWidth: "8rem" },
   },
   {
@@ -66,6 +67,11 @@ export const parkingAreasColumnsForParkingBooking = [
   {
     name: "Booked Slots",
     value: "Booked Slots",
+    class: { width: "10rem", minWidth: "10rem" },
+  },
+  {
+    name: "Available Slots",
+    value: "Available Slots",
     class: { width: "10rem", minWidth: "10rem" },
   },
   {
@@ -306,5 +312,13 @@ export const parkingScreenTabsForEmployee = [
     key: "4",
     label: <h4>Parking History</h4>,
     children: <ParkingHistoryForEmployee />,
+  },
+];
+
+export const parkingScreenTabsForGuards = [
+  {
+    key: "1",
+    label: <h4>Parking History</h4>,
+    children: <ParkingHistoryForGuard />,
   },
 ];

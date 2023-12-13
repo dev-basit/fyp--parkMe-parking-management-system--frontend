@@ -42,10 +42,10 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 function Modaal({ showModal, setShowModal, callback, slots, selectedSlot, setSelectedSlot }) {
-  //   const [show, setShow] = useState(false);
+  // const [show, setShow] = useState(false);
   //
 
-  //   const handleClose = () => setShow(false);
+  const handleClose = () => setShowModal(false);
   //   const handleShow = () => setShow(true);
 
   //   useEffect(() => {
@@ -104,9 +104,9 @@ function Modaal({ showModal, setShowModal, callback, slots, selectedSlot, setSel
           </div>
         </Modal.Body>
         <Modal.Footer>
-          {/* <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={handleClose}>
             Close
-          </Button> */}
+          </Button>
           <Button variant="primary" onClick={() => setShowModal(false)}>
             Confirm Slot
           </Button>

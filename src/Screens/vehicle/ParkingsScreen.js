@@ -22,6 +22,7 @@ import {
   parkingScreenTabsForAdmin,
   parkingScreenTabsForCompanyOwner,
   parkingScreenTabsForEmployee,
+  parkingScreenTabsForGuards,
 } from "../../constants/data/parkings";
 import { companyService } from "../../services/company/companyService";
 import { auth } from "../../services/authService";
@@ -32,6 +33,7 @@ import TableButton from "../../Components/TableButton";
 import TableIcon from "../../Components/TableIcon";
 import Modal from "../../Components/Modal";
 import DetailsIcon from "../../Components/DetailsIcon";
+import { guardService } from "../../services/company/guardService";
 
 const { RangePicker } = DatePicker;
 
@@ -50,6 +52,10 @@ export default function ParkingsScreen() {
 
       {userType === "employee" && (
         <Tabs defaultActiveKey="1" items={parkingScreenTabsForEmployee} onChange={() => {}} />
+      )}
+
+      {userType === "guard" && (
+        <Tabs defaultActiveKey="1" items={parkingScreenTabsForGuards} onChange={() => {}} />
       )}
     </div>
   );
@@ -1581,6 +1587,9 @@ export function ParkVehicleForEmployee() {
           Name: item.name,
           "Total Slots": item.totalSlots,
           bookedSlots: currentParkings[item._id]?.length ? currentParkings[item._id]?.length : 0,
+          availableSlots: currentParkings[item._id]?.length
+            ? item.totalSlots - currentParkings[item._id]?.length
+            : item.totalSlots,
           type: item.type,
           company: item.belongsTo.userId.username,
           slots: {
@@ -1994,5 +2003,96 @@ export function ParkingHistoryForEmployee() {
         </DetailsContainer>
       </div>
     </>
+  );
+}
+
+export function AssignParkingAreaToGuardCompanyOwner() {
+  const [allGuards, setAllGuards] = useState([]);
+  const [allParkingAreas, setParkingAreas] = useState([]);
+  const [selectedGuard, setSelectedGuard] = useState("");
+  const [selectedParkingArea, setSelectedParkingArea] = useState("");
+  const companyId = getLocalStorageItem("companyId");
+
+  useEffect(() => {
+    fetchAllGuards(`?companyId=${companyId}`);
+    fetchAllParkingAreas(`?belongsTo=${companyId}`);
+  }, []);
+
+  const fetchAllGuards = async (queryParams = "") => {
+    try {
+      const response = await guardService.getGuards(queryParams);
+      let tableBodyData = response.data.map((item) => ({
+        id: item._id,
+        name: item.userId.username,
+      }));
+
+      setAllGuards(tableBodyData);
+    } catch (error) {}
+  };
+
+  const fetchAllParkingAreas = async (queryParams = "") => {
+    try {
+      const response = await parkingAreaService.getParkingAreas(queryParams);
+      let tableBodyData = response.data.map((item) => ({
+        id: item._id,
+        name: item.name,
+      }));
+
+      setParkingAreas(tableBodyData);
+    } catch (error) {}
+  };
+
+  const handleSubmit = async () => {
+    try {
+      let payload = { parkingAreaId: selectedParkingArea.id, guardId: selectedGuard.id, assign: "true" };
+
+      const { error } = guardService.parkingAreaAsignSchema.validate(payload);
+      if (error) return showFailureToaster(error.message);
+
+      await guardService.assignParkingArea(payload);
+    } catch (error) {}
+  };
+
+  return (
+    <div className="allCompaniesScreen">
+      <DetailsContainer title="Enter Info:" showDropdown>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            minHeight: "13rem",
+            width: "14.5rem",
+          }}
+        >
+          <DropdownSearhable
+            idkey="id"
+            displayKey="name"
+            placeholder="Select Guard."
+            list={allGuards}
+            selectedItem={selectedGuard}
+            setSelectedItem={setSelectedGuard}
+          ></DropdownSearhable>
+
+          <DropdownSearhable
+            idkey="id"
+            displayKey="name"
+            placeholder="Select Parking Area."
+            list={allParkingAreas}
+            selectedItem={selectedParkingArea}
+            setSelectedItem={setSelectedParkingArea}
+          ></DropdownSearhable>
+
+          <button
+            className="btn buttonDarker "
+            type="submit"
+            style={{ alignSelf: "flex-end" }}
+            onClick={handleSubmit}
+          >
+            Assign
+          </button>
+        </div>
+      </DetailsContainer>
+    </div>
   );
 }
