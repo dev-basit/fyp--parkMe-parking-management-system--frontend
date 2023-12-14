@@ -56,7 +56,7 @@ async function login(user) {
 function logout() {
   // removeLocalStorageItem(tokenKey);
   localStorage.clear();
-  window.location = "/login";
+  window.location = "/";
   return;
 }
 

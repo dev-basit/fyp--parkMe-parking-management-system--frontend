@@ -57,11 +57,11 @@ export const allVehiclesColumns = [
   //   value: "Fuel Consumed/ Month (Litre)",
   //   class: { width: "14rem", minWidth: "14rem" },
   // },
-  {
-    name: "Fuel Allcoated/ Month (Litre)",
-    value: "Fuel Allcoated/ Month (Litre)",
-    class: { width: "14rem", minWidth: "14rem" },
-  },
+  // {
+  //   name: "Fuel Allcoated/ Month (Litre)",
+  //   value: "Fuel Allcoated/ Month (Litre)",
+  //   class: { width: "14rem", minWidth: "14rem" },
+  // },
   {
     name: "Fuelt Type",
     value: "Fuelt Type",

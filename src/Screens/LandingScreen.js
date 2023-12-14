@@ -9,8 +9,8 @@ const LandingScreen = () => {
           E-Vehicle
         </h1>
         <h2 className="fs-2">
-          "Park and Track your vehicle. From Parking to allocating, all in one Place with Vehicle Hub.
-          Now, you can manage and park your vehicle very easily.
+          "Park vehicle and Allocate your vehicle to your Employees by regeistering your company. Now,
+          you can park your vehicle very easily.
         </h2>
 
         <div
